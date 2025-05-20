@@ -2,30 +2,57 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>NTU GEOG B10 畢業網站</title>
 
+  <!-- 引入字體和樣式 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  
   <!-- Bootstrap CSS -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  >
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
 
   <style>
-    body {
-      padding-top: 100px;
-      margin: 0;
+    /* 基本樣式 */
+    :root {
+      --primary-color: #0d6efd;
+      --secondary-color: #6c757d;
+      --light-bg: rgba(255, 255, 255, 0.85);
+      --header-height-lg: 100px;
+      --header-height-md: 80px;
+      --header-height-sm: 70px;
+      --icon-width: 28px; /* 圖標固定寬度 */
     }
     
-    /* 移動設備上減少頂部內邊距 */
-    @media (max-width: 768px) {
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      transition: padding-top 0.3s ease;
+    }
+    
+    /* 動態調整頂部間距 */
+    @media (min-width: 992px) {
       body {
-        padding-top: 80px;
+        padding-top: var(--header-height-lg);
       }
     }
     
+    @media (min-width: 768px) and (max-width: 991.98px) {
+      body {
+        padding-top: var(--header-height-md);
+      }
+    }
+    
+    @media (max-width: 767.98px) {
+      body {
+        padding-top: var(--header-height-sm);
+      }
+    }
+    
+    /* 背景容器與圖片設定 */
     #bg-container {
       position: fixed;
       top: 0;
@@ -42,12 +69,12 @@
       width: 100%; height: 100%;
       object-fit: cover;
       opacity: 0.5;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.5s ease, transform 1s ease;
       border: 5px solid rgba(255,255,255,0.3);
       box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
     
-    /* 移動設備上減小背景邊框 */
+    /* 針對不同裝置優化背景邊框 */
     @media (max-width: 768px) {
       .bg-img {
         border-width: 2px;
@@ -55,6 +82,7 @@
       }
     }
     
+    /* 背景圖片動畫 */
     @keyframes slide-in-left {
       from { transform: translateX(-100%); }
       to   { transform: translateX(0); }
@@ -67,65 +95,255 @@
     
     .slide-in-left { animation: slide-in-left 1s ease forwards; }
     .slide-out-right { animation: slide-out-right 1s ease forwards; }
-
+    
+    /* 頂部導航欄 */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1030;
+      background-color: var(--light-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    
+    /* 漢堡按鈕固定定位 */
+    .navbar-toggler {
+      position: relative;
+      z-index: 1050;
+      transition: none;
+    }
+    
+    .navbar-toggler-icon {
+      transition: none;
+    }
+    
+    /* 調整導航欄布局 */
+    .navbar-brand {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0.5rem 0;
+    }
+    
+    .site-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.2;
+    }
+    
+    .site-subtitle {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--secondary-color);
+      margin: 0;
+    }
+    
+    /* 導航按鈕樣式 */
+    .nav-button {
+      padding: 0.5rem 1.25rem;
+      border-radius: 50rem;
+      transition: all 0.3s ease;
+      margin: 0.25rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    
+    .nav-button .btn-icon {
+      display: inline-flex;
+      width: var(--icon-width);
+      justify-content: flex-start;
+      margin-right: 0.25rem;
+    }
+    
+    .nav-button .btn-text {
+      flex-grow: 1;
+      text-align: left;
+    }
+    
+    /* 桌面版不顯示圖標 */
+    @media (min-width: 992px) {
+      .nav-button .btn-icon {
+        display: none;
+      }
+    }
+    
+    /* 在較小螢幕上的導航菜單 */
+    @media (max-width: 991.98px) {
+      .navbar-collapse {
+        background-color: var(--light-bg);
+        border-radius: 0 0 1rem 1rem;
+        padding: 1rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+      
+      .navbar-nav {
+        margin-top: 0.5rem;
+      }
+      
+      .nav-button {
+        width: 100%;
+        text-align: left;
+        margin: 0.35rem 0;
+        justify-content: flex-start;
+      }
+      
+      .nav-button .btn-icon {
+        width: var(--icon-width);
+        justify-content: flex-start;
+      }
+    }
+    
+    /* 卡片容器和動畫 */
     #card-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1rem;
-      padding: 1rem;
+      gap: 1.5rem;
+      padding: 1.5rem 1rem;
       min-height: 200px;
-      position: relative;
       width: 100%;
+      margin: 0 auto;
+      max-width: 1400px;
     }
-
-    /* 卡片進／出場動畫 */
+    
+    /* 精緻卡片動畫效果 */
     @keyframes card-slide-in {
-      from { transform: translateX(100%); opacity: 0; }
+      from { transform: translateX(50px); opacity: 0; }
       to   { transform: translateX(0);   opacity: 1; }
     }
     
     @keyframes card-slide-out {
       from { transform: translateX(0);   opacity: 1; }
-      to   { transform: translateX(-100%); opacity: 0; }
+      to   { transform: translateX(-50px); opacity: 0; }
     }
     
     .card-animate {
       will-change: transform, opacity;
       animation-duration: 0.5s;
-      animation-timing-function: ease;
+      animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
       animation-fill-mode: forwards;
     }
     
     .card-enter { animation-name: card-slide-in; }
     .card-exit  { animation-name: card-slide-out; }
     
-    /* 導航欄樣式調整 */
-    .navbar-brand {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+    /* 通用卡片樣式 */
+    .content-card {
+      width: 100%;
+      border-radius: 1rem;
+      overflow: hidden;
+      background-color: var(--light-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     
-    /* 移動設備上的導航項目 */
-    .nav-item {
-      margin-bottom: 0.5rem;
+    .content-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     }
     
-    @media (min-width: 992px) {
-      .nav-item {
-        margin-bottom: 0;
-        margin-left: 0.5rem;
+    /* 卡片頭部 */
+    .card-header {
+      background-color: rgba(13, 110, 253, 0.1);
+      border-bottom: 1px solid rgba(13, 110, 253, 0.2);
+      padding: 1rem 1.5rem;
+    }
+    
+    /* 輪播指示器增強 */
+    .carousel-indicators {
+      bottom: -30px;
+    }
+    
+    .carousel-indicators [data-bs-target] {
+      width: 30px;
+      height: 4px;
+      background-color: rgba(0,0,0,0.3);
+      margin: 0 6px;
+      opacity: 0.6;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .carousel-indicators .active {
+      background-color: var(--primary-color);
+      opacity: 1;
+      transform: scaleY(1.2);
+    }
+    
+    /* 增強觸摸體驗 */
+    @media (max-width: 768px) {
+      .carousel-indicators [data-bs-target]::before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -5px;
+        width: calc(100% + 10px);
+        height: 24px;
+        background: transparent;
       }
     }
     
-    /* 小型設備上的垂直排列按鈕 */
-    @media (max-width: 991.98px) {
-      .navbar-nav .btn {
-        display: block;
-        width: 100%;
-        margin-bottom: 0.5rem;
-        text-align: left;
+    /* Toast通知樣式 */
+    .toast {
+      background-color: var(--light-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: none;
+      border-radius: 1rem;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+    
+    .toast-header {
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      background-color: transparent;
+    }
+    
+    /* 針對小屏幕平板優化間距 */
+    @media (max-width: 767.98px) {
+      #card-container {
+        padding: 1rem 0.5rem;
+        gap: 1rem;
+      }
+      
+      .content-card {
+        border-radius: 0.75rem;
+      }
+      
+      .card-header {
+        padding: 0.75rem 1rem;
+      }
+      
+      .content-card:hover {
+        transform: translateY(-3px);
+      }
+    }
+    
+    /* 針對特小屏幕優化布局 */
+    @media (max-width: 575.98px) {
+      .site-title {
+        font-size: 1.5rem;
+      }
+      
+      .site-subtitle {
+        font-size: 0.875rem;
+      }
+      
+      .nav-button {
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      #card-container {
+        padding: 0.75rem 0.25rem;
       }
     }
   </style>
@@ -137,53 +355,60 @@
     <img id="bg-img2" class="bg-img" src="" alt="背景 2">
   </div>
 
-  <!-- Header - 改成使用Bootstrap的Navbar組件 -->
-  <header class="position-fixed top-0 start-0 w-100 bg-white bg-opacity-50 py-2" style="z-index:1000;">
+  <!-- 頂部導航 -->
+  <header class="site-header">
     <nav class="navbar navbar-expand-lg navbar-light">
-      <div class="container-fluid">
-        <!-- 網站標題/品牌 -->
+      <div class="container-fluid px-3">
+        <!-- 網站標題 -->
         <div class="navbar-brand">
-          <h1 class="fs-2 fw-bold mb-0">NTU GEOG</h1>
-          <h2 class="fs-5 fw-normal text-muted mb-0">B10 畢業網站</h2>
+          <h1 class="site-title">NTU GEOG</h1>
+          <h2 class="site-subtitle">B10 畢業網站</h2>
         </div>
         
-        <!-- 漢堡選單按鈕 - 僅在小螢幕顯示 -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+        <!-- 漢堡選單按鈕 -->
+        <button class="navbar-toggler border-0 focus-ring focus-ring-light" type="button" 
+                data-bs-toggle="collapse" data-bs-target="#navbarNav" 
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         
-        <!-- 可折疊的導航項目 -->
+        <!-- 導航菜單 -->
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <button id="toggle-video-btn" class="btn btn-outline-primary rounded-pill">
-                <i class="bi bi-film d-lg-none me-2"></i>畢業影片
+              <button id="toggle-video-btn" class="btn btn-outline-primary nav-button">
+                <span class="btn-icon"><i class="bi bi-film"></i></span>
+                <span class="btn-text">畢業影片</span>
               </button>
             </li>
             <li class="nav-item">
-              <button id="toggle-gallery-btn" class="btn btn-outline-primary rounded-pill">
-                <i class="bi bi-images d-lg-none me-2"></i>活動集錦
+              <button id="toggle-gallery-btn" class="btn btn-outline-primary nav-button">
+                <span class="btn-icon"><i class="bi bi-images"></i></span>
+                <span class="btn-text">活動集錦</span>
               </button>
             </li>
             <li class="nav-item">
-              <button id="toggle-picture-wall-btn" class="btn btn-outline-primary rounded-pill">
-                <i class="bi bi-grid-3x3 d-lg-none me-2"></i>照片牆
+              <button id="toggle-picture-wall-btn" class="btn btn-outline-primary nav-button">
+                <span class="btn-icon"><i class="bi bi-grid-3x3"></i></span>
+                <span class="btn-text">照片牆</span>
               </button>
             </li>
             <li class="nav-item">
-              <a href="#message" class="btn btn-outline-primary rounded-pill">
-                <i class="bi bi-chat-quote d-lg-none me-2"></i>想說的話
+              <a href="#message" class="btn btn-outline-primary nav-button">
+                <span class="btn-icon"><i class="bi bi-chat-quote"></i></span>
+                <span class="btn-text">想說的話</span>
               </a>
             </li>
             <li class="nav-item">
-              <a href="#about" class="btn btn-outline-primary rounded-pill">
-                <i class="bi bi-people d-lg-none me-2"></i>關於我們
+              <a href="#about" class="btn btn-outline-primary nav-button">
+                <span class="btn-icon"><i class="bi bi-people"></i></span>
+                <span class="btn-text">關於我們</span>
               </a>
             </li>
             <li class="nav-item">
-              <button id="toggle-bg-btn" class="btn btn-outline-secondary rounded-pill">
-                <i class="bi bi-image d-lg-none me-2"></i>我要看背景
+              <button id="toggle-bg-btn" class="btn btn-outline-secondary nav-button">
+                <span class="btn-icon"><i class="bi bi-image"></i></span>
+                <span class="btn-text">我要看背景</span>
               </button>
             </li>
           </ul>
@@ -193,8 +418,8 @@
   </header>
 
   <!-- 主內容 -->
-  <main class="container-fluid px-lg-4 mt-3 mt-lg-5">
-    <div id="card-container" class="mx-auto">
+  <main class="container-fluid px-0">
+    <div id="card-container">
       <!-- 卡片元件動態插入 -->
     </div>
   </main>
@@ -228,46 +453,91 @@
       ];
       const img1 = document.getElementById('bg-img1');
       const img2 = document.getElementById('bg-img2');
-      const toggleBtn = document.getElementById('toggle-bg-btn');  // 正確變數
+      const toggleBtn = document.getElementById('toggle-bg-btn');
+      const toggleBtnText = toggleBtn.querySelector('.btn-text');
       let visibleEl = img1, hiddenEl = img2;
       let currentIndex = 0;
       let isFullOpacity = false;
+      let autoSwitchInterval;
 
       // 初始顯示
-      visibleEl.src = images[0];
-      visibleEl.style.zIndex = 2;
-      hiddenEl.style.zIndex = 1;
+      img1.src = images[0];
+      img1.style.zIndex = 2;
+      img2.style.zIndex = 1;
+      
+      // 預加載所有背景圖
+      preloadImages(images);
 
-      // 背景自動切換
-      setInterval(switchBackground, 5000);
+      // 啟動背景自動切換
+      startBackgroundAutoSwitch();
+      
+      // 在窗口可見時才運行切換以節省資源
+      document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible') {
+          startBackgroundAutoSwitch();
+        } else {
+          stopBackgroundAutoSwitch();
+        }
+      });
 
       // 半透明 ↔ 不透明 切換
       toggleBtn.addEventListener('click', () => {
         isFullOpacity = !isFullOpacity;
         visibleEl.style.opacity = isFullOpacity ? '1' : '0.5';
-        toggleBtn.innerHTML = isFullOpacity ? 
-          '<i class="bi bi-image d-lg-none me-2"></i>恢復背景' : 
-          '<i class="bi bi-image d-lg-none me-2"></i>我要看背景';
+        toggleBtnText.textContent = isFullOpacity ? '恢復背景' : '我要看背景';
         
         // 顯示提示
         showToast(isFullOpacity ? '背景已顯示' : '背景已半透明');
       });
+      
+      // 預加載圖片
+      function preloadImages(imageArray) {
+        imageArray.forEach((imgSrc, index) => {
+          if (index === 0) return; // 跳過第一張（已加載）
+          const img = new Image();
+          img.src = imgSrc;
+        });
+      }
+      
+      // 開始自動切換
+      function startBackgroundAutoSwitch() {
+        if (!autoSwitchInterval) {
+          autoSwitchInterval = setInterval(switchBackground, 5000);
+        }
+      }
+      
+      // 停止自動切換
+      function stopBackgroundAutoSwitch() {
+        if (autoSwitchInterval) {
+          clearInterval(autoSwitchInterval);
+          autoSwitchInterval = null;
+        }
+      }
 
+      // 背景切換函數
       function switchBackground() {
         const nextIndex = (currentIndex + 1) % images.length;
         hiddenEl.src = images[nextIndex];
         hiddenEl.style.opacity = isFullOpacity ? '1' : '0.5';
+        
+        // 重置動畫類
         visibleEl.classList.remove('slide-in-left','slide-out-right');
         hiddenEl.classList.remove('slide-in-left','slide-out-right');
+        
+        // 設置層級和添加動畫
         hiddenEl.style.zIndex = 2;
         visibleEl.style.zIndex = 1;
         visibleEl.classList.add('slide-out-right');
         hiddenEl.classList.add('slide-in-left');
+        
+        // 動畫結束後清理
         visibleEl.addEventListener('animationend', function handler() {
           visibleEl.classList.remove('slide-out-right');
           visibleEl.style.transform = '';
           visibleEl.removeEventListener('animationend', handler);
         });
+        
+        // 交換參考
         [visibleEl, hiddenEl] = [hiddenEl, visibleEl];
         currentIndex = nextIndex;
       }
@@ -290,9 +560,30 @@
             navbarCollapse.classList.add('show');
           }
         }
+        
+        // 動態調整內容間距
+        document.body.style.setProperty('--header-height', 
+          window.innerWidth >= 992 ? '100px' : 
+          window.innerWidth >= 768 ? '80px' : '70px');
+      });
+      
+      // 頁面載入時執行一次大小調整
+      window.dispatchEvent(new Event('resize'));
+      
+      // 監聽滾動事件，添加導航欄緊湊效果
+      window.addEventListener('scroll', function() {
+        const header = document.querySelector('.site-header');
+        if (window.scrollY > 50) {
+          header.style.boxShadow = '0 2px 15px rgba(0,0,0,0.15)';
+          header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+        } else {
+          header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+          header.style.backgroundColor = 'rgba(255, 255, 255, 0.85)';
+        }
       });
     })();
 
+    // 在DOM加載完成後初始化組件追蹤系統
     document.addEventListener('DOMContentLoaded', () => {
       const container = document.getElementById('card-container');
       
@@ -303,18 +594,20 @@
         pictureWall: false
       };
 
-      // 修改後的 switchComponent 函數 - 允許組件堆疊並優化RWD
+      // 優化後的 switchComponent 函數
       window.switchComponent = function(componentName, newCardsHtml, action = 'toggle') {
-        // 如果是 toggle 操作，檢查組件狀態
+        // 處理組件切換
         if (action === 'toggle') {
           const isActive = window.activeComponents[componentName];
           
           if (isActive) {
-            // 如果組件已經開啟，我們要關閉它
+            // 關閉組件
             const componentCards = document.querySelectorAll(`[data-component="${componentName}"]`);
             
             componentCards.forEach(card => {
-              card.classList.replace('card-enter', 'card-exit');
+              // 添加退場動畫
+              card.classList.remove('card-enter');
+              card.classList.add('card-exit');
               card.addEventListener('animationend', () => {
                 if (container.contains(card)) {
                   container.removeChild(card);
@@ -322,52 +615,25 @@
               }, { once: true });
             });
             
+            // 更新組件狀態
             window.activeComponents[componentName] = false;
             
             // 更新按鈕文字
-            const btn = document.getElementById(`toggle-${componentName.replace(/([A-Z])/g, '-$1').toLowerCase()}-btn`);
-            if (btn) {
-              let iconClass = '';
-              switch(componentName) {
-                case 'video': iconClass = 'bi-film'; break;
-                case 'gallery': iconClass = 'bi-images'; break;
-                case 'pictureWall': iconClass = 'bi-grid-3x3'; break;
-              }
-              btn.innerHTML = `<i class="${iconClass} d-lg-none me-2"></i>${componentName === 'pictureWall' ? '照片牆' : componentName === 'gallery' ? '活動集錦' : '畢業影片'}`;
-            }
+            updateButtonText(componentName, false);
             
             // 顯示提示
-            const messageMap = {
-              'video': '畢業影片已隱藏',
-              'gallery': '活動集錦已隱藏',
-              'pictureWall': '照片牆已隱藏'
-            };
-            showToast(messageMap[componentName] || '元件已隱藏');
+            showComponentToast(componentName, false);
             
             return;
           } else {
-            // 組件未開啟，將其標記為開啟
+            // 開啟組件
             window.activeComponents[componentName] = true;
             
             // 更新按鈕文字
-            const btn = document.getElementById(`toggle-${componentName.replace(/([A-Z])/g, '-$1').toLowerCase()}-btn`);
-            if (btn) {
-              let iconClass = '';
-              switch(componentName) {
-                case 'video': iconClass = 'bi-film'; break;
-                case 'gallery': iconClass = 'bi-images'; break;
-                case 'pictureWall': iconClass = 'bi-grid-3x3'; break;
-              }
-              btn.innerHTML = `<i class="${iconClass} d-lg-none me-2"></i>隱藏${componentName === 'pictureWall' ? '照片牆' : componentName === 'gallery' ? '活動集錦' : '畢業影片'}`;
-            }
+            updateButtonText(componentName, true);
             
             // 顯示提示
-            const messageMap = {
-              'video': '畢業影片已顯示',
-              'gallery': '活動集錦已顯示',
-              'pictureWall': '照片牆已顯示'
-            };
-            showToast(messageMap[componentName] || '元件已顯示');
+            showComponentToast(componentName, true);
           }
         }
         
@@ -379,20 +645,26 @@
           }
         }
         
-        // 新卡片進場 - 每張卡片添加對應的組件標識
-        newCardsHtml.forEach(html => {
+        // 新卡片進場，使用動畫並增強可訪問性
+        newCardsHtml.forEach((html, index) => {
           const wrapper = document.createElement('div');
           wrapper.innerHTML = html.trim();
           const card = wrapper.firstElementChild;
           
           if (card) {
-            // 為卡片添加組件識別屬性
+            // 為卡片添加共享樣式類
+            card.classList.add('content-card');
+            
+            // 添加組件識別和動畫類
             card.setAttribute('data-component', componentName);
             card.classList.add('card-animate');
+            card.setAttribute('role', 'region');
+            card.setAttribute('aria-label', getComponentLabel(componentName));
             
-            // 將卡片添加到容器的底部
+            // 添加到容器
             container.appendChild(card);
             
+            // 觸發進場動畫
             requestAnimationFrame(() => {
               card.classList.add('card-enter');
             });
@@ -400,18 +672,48 @@
         });
       };
       
+      // 輔助函數：組件標籤獲取
+      function getComponentLabel(componentName) {
+        const labels = {
+          'video': '畢業影片',
+          'gallery': '活動集錦',
+          'pictureWall': '照片牆'
+        };
+        return labels[componentName] || '內容組件';
+      }
+      
+      // 輔助函數：更新按鈕文字
+      function updateButtonText(componentName, isActive) {
+        const btn = document.getElementById(`toggle-${componentName.replace(/([A-Z])/g, '-$1').toLowerCase()}-btn`);
+        if (!btn) return;
+        
+        const btnTextElement = btn.querySelector('.btn-text');
+        if (!btnTextElement) return;
+        
+        const componentLabel = getComponentLabel(componentName);
+        btnTextElement.textContent = `${isActive ? '隱藏' : ''}${componentLabel}`;
+      }
+      
+      // 輔助函數：顯示組件操作提示
+      function showComponentToast(componentName, isShow) {
+        const componentLabel = getComponentLabel(componentName);
+        showToast(`${componentLabel}已${isShow ? '顯示' : '隱藏'}`);
+      }
+      
       // 提示框顯示函數
       function showToast(message) {
         const toastEl = document.getElementById('actionToast');
         const toastBody = toastEl.querySelector('.toast-body');
         toastBody.textContent = message;
-        const toast = new bootstrap.Toast(toastEl);
+        const toast = new bootstrap.Toast(toastEl, {
+          delay: 2000
+        });
         toast.show();
       }
     });
   </script>
   
-  <!-- 你的元件 -->
+  <!-- 元件腳本 -->
   <script src="video.js"></script>
   <script src="gallery.js"></script>
   <script src="picture-wall.js"></script>

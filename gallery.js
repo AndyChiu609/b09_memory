@@ -5,6 +5,7 @@
   // 全局變量
   let allDetails = [];
   let modalOverlay = null;
+  let resizeListenerAdded = false;
 
   // 定義全域函數 - 載入活動集錦卡片HTML
   window.loadGalleryCards = function () {
@@ -410,6 +411,15 @@
           closeDetail(detail);
         });
       });
+
+      // 如果還沒有添加resize監聽器，添加它
+      if (!resizeListenerAdded) {
+        window.addEventListener("resize", updateGalleryLayout);
+        resizeListenerAdded = true;
+      }
+
+      // 初始化佈局
+      updateGalleryLayout();
     }, 100);
 
     // 返回卡片HTML數組
@@ -485,10 +495,17 @@
     // 移除所有詳情視窗
     allDetails.forEach((detail) => detail.remove());
     allDetails = [];
+
+    // 移除resize事件監聽器
+    if (resizeListenerAdded) {
+      window.removeEventListener("resize", updateGalleryLayout);
+      resizeListenerAdded = false;
+    }
   }
 
   // 獲取按鈕元素
   const btn = document.getElementById("toggle-gallery-btn");
+  if (!btn) return; // 如果按鈕不存在，退出
 
   // 綁定按鈕點擊事件
   btn.addEventListener("click", () => {
@@ -501,21 +518,32 @@
       // 載入活動集錦卡片並使用修改後的switchComponent函數
       const galleryCards = window.loadGalleryCards();
       window.switchComponent("gallery", galleryCards, "toggle");
-      const iconHtml =
-        window.innerWidth < 992 ? '<i class="bi bi-images me-2"></i>' : "";
-      btn.innerHTML = `${iconHtml}隱藏活動集錦`;
 
-      // 初始化佈局
-      setTimeout(updateGalleryLayout, 100);
+      // 更新按鈕文字
+      const btnTextElement = btn.querySelector(".btn-text");
+      if (btnTextElement) {
+        btnTextElement.textContent = "隱藏活動集錦";
+      }
+
+      // 改變按鈕顏色為實心
+      btn.classList.remove("btn-outline-primary");
+      btn.classList.add("btn-primary");
     } else {
       // 清理資源
       cleanup();
 
       // 切換卡片，新函數會處理關閉卡片
       window.switchComponent("gallery", [], "toggle");
-      const iconHtml =
-        window.innerWidth < 992 ? '<i class="bi bi-images me-2"></i>' : "";
-      btn.innerHTML = `${iconHtml}活動集錦`;
+
+      // 更新按鈕文字
+      const btnTextElement = btn.querySelector(".btn-text");
+      if (btnTextElement) {
+        btnTextElement.textContent = "活動集錦";
+      }
+
+      // 恢復按鈕顏色為空心
+      btn.classList.remove("btn-primary");
+      btn.classList.add("btn-outline-primary");
     }
   });
 })();

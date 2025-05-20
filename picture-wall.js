@@ -2,14 +2,22 @@
 (() => {
   console.log("👉 picture-wall.js 已載入");
 
+  // 全局變量追蹤
+  let resizeListenerAdded = false;
+
   // 確保按鈕存在
   let btn = document.getElementById("toggle-picture-wall-btn");
   if (!btn) {
     // 建立導航按鈕
     btn = document.createElement("button");
     btn.id = "toggle-picture-wall-btn";
-    btn.className = "btn btn-outline-primary btn-lg rounded-pill";
-    btn.textContent = "照片牆";
+    btn.className = "btn btn-outline-primary nav-button";
+
+    // 創建按鈕內容，與新的HTML結構一致
+    btn.innerHTML = `
+      <span class="btn-icon"><i class="bi bi-grid-3x3"></i></span>
+      <span class="btn-text">照片牆</span>
+    `;
 
     // 找到導航欄並插入新按鈕
     const nav = document.querySelector("header nav");
@@ -346,6 +354,12 @@
         });
       }
 
+      // 添加 resize 事件監聽器（如果尚未添加）
+      if (!resizeListenerAdded) {
+        window.addEventListener("resize", updatePictureWallLayout);
+        resizeListenerAdded = true;
+      }
+
       // 初始化響應式佈局
       updatePictureWallLayout();
     }, 100);
@@ -386,10 +400,17 @@
     if (styleElement) {
       styleElement.remove();
     }
+
+    // 移除 resize 事件監聽器
+    if (resizeListenerAdded) {
+      window.removeEventListener("resize", updatePictureWallLayout);
+      resizeListenerAdded = false;
+    }
   }
 
   // 獲取按鈕元素
   btn = document.getElementById("toggle-picture-wall-btn");
+  if (!btn) return; // 如果按鈕不存在，則退出
 
   // 綁定按鈕點擊事件
   btn.addEventListener("click", () => {
@@ -404,12 +425,14 @@
       window.switchComponent("pictureWall", pictureWallCards, "toggle");
 
       // 更新按鈕文字
-      const iconHtml =
-        window.innerWidth < 992 ? '<i class="bi bi-grid-3x3 me-2"></i>' : "";
-      btn.innerHTML = `${iconHtml}隱藏照片牆`;
+      const btnTextElement = btn.querySelector(".btn-text");
+      if (btnTextElement) {
+        btnTextElement.textContent = "隱藏照片牆";
+      }
 
-      // 初始化響應式佈局
-      setTimeout(updatePictureWallLayout, 100);
+      // 改變按鈕顏色為實心
+      btn.classList.remove("btn-outline-primary");
+      btn.classList.add("btn-primary");
     } else {
       // 清理資源
       cleanup();
@@ -418,9 +441,14 @@
       window.switchComponent("pictureWall", [], "toggle");
 
       // 更新按鈕文字
-      const iconHtml =
-        window.innerWidth < 992 ? '<i class="bi bi-grid-3x3 me-2"></i>' : "";
-      btn.innerHTML = `${iconHtml}照片牆`;
+      const btnTextElement = btn.querySelector(".btn-text");
+      if (btnTextElement) {
+        btnTextElement.textContent = "照片牆";
+      }
+
+      // 恢復按鈕顏色為空心
+      btn.classList.remove("btn-primary");
+      btn.classList.add("btn-outline-primary");
     }
   });
 })();
