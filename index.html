@@ -110,15 +110,43 @@
       transition: all 0.3s ease;
     }
     
-    /* 漢堡按鈕固定定位 */
+    /* 漢堡按鈕固定定位 - 增強選擇器特異性 */
     .navbar-toggler {
       position: relative;
       z-index: 1050;
       transition: none;
+      margin-right: 5px;
     }
     
-    .navbar-toggler-icon {
+    /* 增強漢堡圖標樣式以防止跑版 */
+    .navbar .navbar-toggler-icon {
       transition: none;
+      position: relative;
+      z-index: 1051;
+      background-image: var(--bs-navbar-toggler-icon-bg);
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    
+    /* 確保在按鈕狀態變化時圖標不受影響 */
+    .navbar-toggler:focus .navbar-toggler-icon,
+    .navbar-toggler:active .navbar-toggler-icon,
+    .navbar-toggler:hover .navbar-toggler-icon {
+      background-image: var(--bs-navbar-toggler-icon-bg) !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    
+    /* 確保導航收合時不影響漢堡按鈕 */
+    .navbar-collapse.collapsing ~ .navbar-toggler .navbar-toggler-icon,
+    .navbar-collapse.show ~ .navbar-toggler .navbar-toggler-icon {
+      background-image: var(--bs-navbar-toggler-icon-bg) !important;
+      opacity: 1 !important;
+    }
+    
+    /* 特定隔離導航按鈕的樣式，防止互相影響 */
+    .nav-button {
+      isolation: isolate;
     }
     
     /* 調整導航欄布局 */
@@ -365,12 +393,14 @@
           <h2 class="site-subtitle">B10 畢業網站</h2>
         </div>
         
-        <!-- 漢堡選單按鈕 -->
-        <button class="navbar-toggler border-0 focus-ring focus-ring-light" type="button" 
-                data-bs-toggle="collapse" data-bs-target="#navbarNav" 
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <!-- 漢堡選單按鈕 - 增加一層div保護 -->
+        <div class="navbar-toggler-wrapper" style="isolation: isolate;">
+          <button class="navbar-toggler border-0 focus-ring focus-ring-light" type="button" 
+                  data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                  aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
         
         <!-- 導航菜單 -->
         <div class="collapse navbar-collapse" id="navbarNav">

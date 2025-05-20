@@ -254,55 +254,75 @@
     // 保留樣式表，因為切換時會重新添加
   }
 
+  // 定義單獨的按鈕狀態更新函數
+  function updateVideoButtonState(isActive) {
+    const toggleVideoBtn = document.getElementById("toggle-video-btn");
+    if (!toggleVideoBtn) return;
+
+    // 使用 requestAnimationFrame 確保 DOM 更新時序正確
+    requestAnimationFrame(() => {
+      // 更新按鈕文字
+      const btnTextElement = toggleVideoBtn.querySelector(".btn-text");
+      if (btnTextElement) {
+        btnTextElement.textContent = isActive ? "隱藏畢業影片" : "畢業影片";
+      }
+
+      // 更新按鈕樣式類
+      if (isActive) {
+        toggleVideoBtn.classList.remove("btn-outline-primary");
+        toggleVideoBtn.classList.add("btn-primary");
+      } else {
+        toggleVideoBtn.classList.remove("btn-primary");
+        toggleVideoBtn.classList.add("btn-outline-primary");
+      }
+    });
+  }
+
   // 獲取按鈕元素
   const toggleVideoBtn = document.getElementById("toggle-video-btn");
   if (!toggleVideoBtn) return; // 如果按鈕不存在，退出
 
-  // 綁定按鈕點擊事件
+  // 綁定按鈕點擊事件 - 使用完全重構的邏輯
   toggleVideoBtn.addEventListener("click", () => {
     // 檢查是否已存在視頻卡片
     const existingVideoCard = document.querySelector(
       '[data-component="video"]'
     );
 
-    if (!existingVideoCard) {
-      // 載入視頻卡片並使用修改後的switchComponent函數
+    // 確定當前意圖（顯示或隱藏）
+    const shouldShowVideo = !existingVideoCard;
+
+    // 處理組件切換和資源清理
+    if (shouldShowVideo) {
+      // 步驟 1: 載入視頻卡片
       const videoCards = window.loadVideoCards();
 
-      // 先處理組件切換
+      // 步驟 2: 切換組件 - 這會關閉導航欄
       window.switchComponent("video", videoCards, "toggle");
 
-      // 確保DOM完全更新後再調整按鈕樣式，避免影響navbar
+      // 步驟 3: 在適當延遲後更新按鈕 (確保導航交互已完成)
       setTimeout(() => {
-        // 更新按鈕文字和樣式
-        const btnTextElement = toggleVideoBtn.querySelector(".btn-text");
-        if (btnTextElement) {
-          btnTextElement.textContent = "隱藏畢業影片";
-        }
-
-        // 改變按鈕顏色為實心
-        toggleVideoBtn.classList.remove("btn-outline-primary");
-        toggleVideoBtn.classList.add("btn-primary");
-      }, 50);
+        updateVideoButtonState(true);
+      }, 350); // 延遲 350ms 確保導航欄折疊動畫已完成
     } else {
-      // 清理資源
+      // 步驟 1: 清理資源
       cleanup();
 
-      // 切換卡片，新函數會處理關閉卡片
+      // 步驟 2: 切換組件 - 這會關閉導航欄
       window.switchComponent("video", [], "toggle");
 
-      // 確保DOM完全更新後再調整按鈕樣式
+      // 步驟 3: 在適當延遲後更新按鈕 (確保導航交互已完成)
       setTimeout(() => {
-        // 更新按鈕文字和樣式
-        const btnTextElement = toggleVideoBtn.querySelector(".btn-text");
-        if (btnTextElement) {
-          btnTextElement.textContent = "畢業影片";
-        }
-
-        // 恢復按鈕顏色為空心
-        toggleVideoBtn.classList.remove("btn-primary");
-        toggleVideoBtn.classList.add("btn-outline-primary");
-      }, 50);
+        updateVideoButtonState(false);
+      }, 350); // 延遲 350ms 確保導航欄折疊動畫已完成
     }
+  });
+
+  // 當頁面載入時，確保按鈕初始狀態正確
+  document.addEventListener("DOMContentLoaded", () => {
+    const existingVideoCard = document.querySelector(
+      '[data-component="video"]'
+    );
+    updateVideoButtonState(!!existingVideoCard);
   });
 })();
