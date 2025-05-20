@@ -275,6 +275,9 @@
         toggleVideoBtn.classList.remove("btn-primary");
         toggleVideoBtn.classList.add("btn-outline-primary");
       }
+      // 🔑 **同步 Bootstrap Toggle 狀態**
+      toggleVideoBtn.classList.toggle("active", isActive); // 切換 .active
+      toggleVideoBtn.setAttribute("aria-pressed", isActive ? "true" : "false"); // 更新輔助工具屬性
     });
   }
 

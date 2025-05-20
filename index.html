@@ -50,7 +50,7 @@
       .bg-img { border-width: 2px; box-shadow: 0 0 10px rgba(0,0,0,0.3); }
     }
     @keyframes slide-in-left   { from { transform: translateX(-100%); } to { transform: translateX(0); } }
-    @keyframes slide-out-right { from { transform: translateX(0); }   to { transform: translateX(100%); } }
+    @keyframes slide-out-right { from { transform: translateX(0);   } to { transform: translateX(100%); } }
     .slide-in-left  { animation: slide-in-left 1s ease forwards; }
     .slide-out-right{ animation: slide-out-right 1s ease forwards; }
 
@@ -149,8 +149,6 @@
       transform: translateY(-5px);
       box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     }
-
-    /* 其他響應式設定與動畫同原本略... */
   </style>
 </head>
 <body>
@@ -227,10 +225,10 @@
                 <span class="btn-text">關於我們</span>
               </a>
             </li>
-            <!-- 我要看背景 -->
+            <!-- 我要看背景（已改為主色系 btn-outline-primary） -->
             <li class="nav-item">
               <button id="toggle-bg-btn"
-                      class="btn btn-outline-secondary nav-button"
+                      class="btn btn-outline-primary nav-button"
                       data-bs-toggle="button"
                       aria-pressed="false"
                       autocomplete="off">

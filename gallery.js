@@ -528,6 +528,9 @@
       // 改變按鈕顏色為實心
       btn.classList.remove("btn-outline-primary");
       btn.classList.add("btn-primary");
+      // 🔑 同步 Bootstrap Toggle 狀態
+      btn.classList.add("active");
+      btn.setAttribute("aria-pressed", "true");
     } else {
       // 清理資源
       cleanup();
@@ -544,6 +547,9 @@
       // 恢復按鈕顏色為空心
       btn.classList.remove("btn-primary");
       btn.classList.add("btn-outline-primary");
+      // 🔑 同步 Bootstrap Toggle 狀態
+      btn.classList.remove("active");
+      btn.setAttribute("aria-pressed", "false");
     }
   });
 })();
