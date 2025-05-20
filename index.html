@@ -10,6 +10,7 @@
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
     rel="stylesheet"
   >
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
 
   <style>
@@ -17,6 +18,14 @@
       padding-top: 100px;
       margin: 0;
     }
+    
+    /* 移動設備上減少頂部內邊距 */
+    @media (max-width: 768px) {
+      body {
+        padding-top: 80px;
+      }
+    }
+    
     #bg-container {
       position: fixed;
       top: 0;
@@ -26,6 +35,7 @@
       overflow: hidden;
       z-index: -1;
     }
+    
     .bg-img {
       position: absolute;
       top: 0; left: 0;
@@ -36,14 +46,25 @@
       border: 5px solid rgba(255,255,255,0.3);
       box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
+    
+    /* 移動設備上減小背景邊框 */
+    @media (max-width: 768px) {
+      .bg-img {
+        border-width: 2px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      }
+    }
+    
     @keyframes slide-in-left {
       from { transform: translateX(-100%); }
       to   { transform: translateX(0); }
     }
+    
     @keyframes slide-out-right {
       from { transform: translateX(0); }
       to   { transform: translateX(100%); }
     }
+    
     .slide-in-left { animation: slide-in-left 1s ease forwards; }
     .slide-out-right { animation: slide-out-right 1s ease forwards; }
 
@@ -55,6 +76,7 @@
       padding: 1rem;
       min-height: 200px;
       position: relative;
+      width: 100%;
     }
 
     /* 卡片進／出場動畫 */
@@ -62,18 +84,50 @@
       from { transform: translateX(100%); opacity: 0; }
       to   { transform: translateX(0);   opacity: 1; }
     }
+    
     @keyframes card-slide-out {
       from { transform: translateX(0);   opacity: 1; }
       to   { transform: translateX(-100%); opacity: 0; }
     }
+    
     .card-animate {
       will-change: transform, opacity;
       animation-duration: 0.5s;
       animation-timing-function: ease;
       animation-fill-mode: forwards;
     }
+    
     .card-enter { animation-name: card-slide-in; }
     .card-exit  { animation-name: card-slide-out; }
+    
+    /* 導航欄樣式調整 */
+    .navbar-brand {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    /* 移動設備上的導航項目 */
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+    
+    @media (min-width: 992px) {
+      .nav-item {
+        margin-bottom: 0;
+        margin-left: 0.5rem;
+      }
+    }
+    
+    /* 小型設備上的垂直排列按鈕 */
+    @media (max-width: 991.98px) {
+      .navbar-nav .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: 0.5rem;
+        text-align: left;
+      }
+    }
   </style>
 </head>
 <body>
@@ -83,30 +137,80 @@
     <img id="bg-img2" class="bg-img" src="" alt="背景 2">
   </div>
 
-  <!-- Header -->
-  <header class="position-fixed top-0 start-0 w-100 bg-white bg-opacity-50 border border-white rounded-3 py-4 px-4" style="z-index:1000;">
-    <div class="container-fluid d-flex justify-content-between align-items-center">
-      <div class="d-flex flex-column align-items-start">
-        <h1 class="fs-2 fw-bold mb-0">NTU GEOG</h1>
-        <h2 class="fs-5 fw-normal text-muted mb-0">B10 畢業網站</h2>
+  <!-- Header - 改成使用Bootstrap的Navbar組件 -->
+  <header class="position-fixed top-0 start-0 w-100 bg-white bg-opacity-50 py-2" style="z-index:1000;">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container-fluid">
+        <!-- 網站標題/品牌 -->
+        <div class="navbar-brand">
+          <h1 class="fs-2 fw-bold mb-0">NTU GEOG</h1>
+          <h2 class="fs-5 fw-normal text-muted mb-0">B10 畢業網站</h2>
+        </div>
+        
+        <!-- 漢堡選單按鈕 - 僅在小螢幕顯示 -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- 可折疊的導航項目 -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <button id="toggle-video-btn" class="btn btn-outline-primary rounded-pill">
+                <i class="bi bi-film d-lg-none me-2"></i>畢業影片
+              </button>
+            </li>
+            <li class="nav-item">
+              <button id="toggle-gallery-btn" class="btn btn-outline-primary rounded-pill">
+                <i class="bi bi-images d-lg-none me-2"></i>活動集錦
+              </button>
+            </li>
+            <li class="nav-item">
+              <button id="toggle-picture-wall-btn" class="btn btn-outline-primary rounded-pill">
+                <i class="bi bi-grid-3x3 d-lg-none me-2"></i>照片牆
+              </button>
+            </li>
+            <li class="nav-item">
+              <a href="#message" class="btn btn-outline-primary rounded-pill">
+                <i class="bi bi-chat-quote d-lg-none me-2"></i>想說的話
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#about" class="btn btn-outline-primary rounded-pill">
+                <i class="bi bi-people d-lg-none me-2"></i>關於我們
+              </a>
+            </li>
+            <li class="nav-item">
+              <button id="toggle-bg-btn" class="btn btn-outline-secondary rounded-pill">
+                <i class="bi bi-image d-lg-none me-2"></i>我要看背景
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
-      <nav class="d-flex gap-3">
-        <button id="toggle-video-btn"        class="btn btn-outline-primary btn-lg rounded-pill">畢業影片</button>
-        <button id="toggle-gallery-btn"      class="btn btn-outline-primary btn-lg rounded-pill">活動集錦</button>
-        <button id="toggle-picture-wall-btn" class="btn btn-outline-primary btn-lg rounded-pill">照片牆</button>
-        <a href="#message"   class="btn btn-outline-primary btn-lg rounded-pill">想說的話</a>
-        <a href="#about"     class="btn btn-outline-primary btn-lg rounded-pill">關於我們</a>
-        <button id="toggle-bg-btn"           class="btn btn-outline-secondary btn-lg rounded-pill">我要看背景</button>
-      </nav>
-    </div>
+    </nav>
   </header>
 
   <!-- 主內容 -->
-  <main class="container mt-5">
-    <div id="card-container">
+  <main class="container-fluid px-lg-4 mt-3 mt-lg-5">
+    <div id="card-container" class="mx-auto">
       <!-- 卡片元件動態插入 -->
     </div>
   </main>
+
+  <!-- 反饋提示 -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="actionToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="me-auto">操作提示</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        操作成功！
+      </div>
+    </div>
+  </div>
 
   <!-- JS 套件 -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
@@ -141,7 +245,12 @@
       toggleBtn.addEventListener('click', () => {
         isFullOpacity = !isFullOpacity;
         visibleEl.style.opacity = isFullOpacity ? '1' : '0.5';
-        toggleBtn.textContent = isFullOpacity ? '恢復背景' : '我要看背景';
+        toggleBtn.innerHTML = isFullOpacity ? 
+          '<i class="bi bi-image d-lg-none me-2"></i>恢復背景' : 
+          '<i class="bi bi-image d-lg-none me-2"></i>我要看背景';
+        
+        // 顯示提示
+        showToast(isFullOpacity ? '背景已顯示' : '背景已半透明');
       });
 
       function switchBackground() {
@@ -162,6 +271,26 @@
         [visibleEl, hiddenEl] = [hiddenEl, visibleEl];
         currentIndex = nextIndex;
       }
+      
+      // 提示框顯示函數
+      function showToast(message) {
+        const toastEl = document.getElementById('actionToast');
+        const toastBody = toastEl.querySelector('.toast-body');
+        toastBody.textContent = message;
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
+      }
+      
+      // 監聽視窗大小變化，在大螢幕時自動展開導航欄
+      window.addEventListener('resize', function() {
+        if (window.innerWidth >= 992) {
+          const navbarCollapse = document.getElementById('navbarNav');
+          if (navbarCollapse && !navbarCollapse.classList.contains('show')) {
+            document.querySelector('.navbar-toggler').setAttribute('aria-expanded', 'true');
+            navbarCollapse.classList.add('show');
+          }
+        }
+      });
     })();
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -174,7 +303,7 @@
         pictureWall: false
       };
 
-      // 修改後的 switchComponent 函數 - 允許組件堆疊
+      // 修改後的 switchComponent 函數 - 允許組件堆疊並優化RWD
       window.switchComponent = function(componentName, newCardsHtml, action = 'toggle') {
         // 如果是 toggle 操作，檢查組件狀態
         if (action === 'toggle') {
@@ -194,10 +323,59 @@
             });
             
             window.activeComponents[componentName] = false;
+            
+            // 更新按鈕文字
+            const btn = document.getElementById(`toggle-${componentName.replace(/([A-Z])/g, '-$1').toLowerCase()}-btn`);
+            if (btn) {
+              let iconClass = '';
+              switch(componentName) {
+                case 'video': iconClass = 'bi-film'; break;
+                case 'gallery': iconClass = 'bi-images'; break;
+                case 'pictureWall': iconClass = 'bi-grid-3x3'; break;
+              }
+              btn.innerHTML = `<i class="${iconClass} d-lg-none me-2"></i>${componentName === 'pictureWall' ? '照片牆' : componentName === 'gallery' ? '活動集錦' : '畢業影片'}`;
+            }
+            
+            // 顯示提示
+            const messageMap = {
+              'video': '畢業影片已隱藏',
+              'gallery': '活動集錦已隱藏',
+              'pictureWall': '照片牆已隱藏'
+            };
+            showToast(messageMap[componentName] || '元件已隱藏');
+            
             return;
           } else {
             // 組件未開啟，將其標記為開啟
             window.activeComponents[componentName] = true;
+            
+            // 更新按鈕文字
+            const btn = document.getElementById(`toggle-${componentName.replace(/([A-Z])/g, '-$1').toLowerCase()}-btn`);
+            if (btn) {
+              let iconClass = '';
+              switch(componentName) {
+                case 'video': iconClass = 'bi-film'; break;
+                case 'gallery': iconClass = 'bi-images'; break;
+                case 'pictureWall': iconClass = 'bi-grid-3x3'; break;
+              }
+              btn.innerHTML = `<i class="${iconClass} d-lg-none me-2"></i>隱藏${componentName === 'pictureWall' ? '照片牆' : componentName === 'gallery' ? '活動集錦' : '畢業影片'}`;
+            }
+            
+            // 顯示提示
+            const messageMap = {
+              'video': '畢業影片已顯示',
+              'gallery': '活動集錦已顯示',
+              'pictureWall': '照片牆已顯示'
+            };
+            showToast(messageMap[componentName] || '元件已顯示');
+          }
+        }
+        
+        // 在小屏幕上自動折疊導航欄
+        if (window.innerWidth < 992) {
+          const navbarCollapse = document.getElementById('navbarNav');
+          if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+            document.querySelector('.navbar-toggler').click();
           }
         }
         
@@ -221,8 +399,15 @@
           }
         });
       };
-
-      // 初始化時不綁定按鈕事件，讓各個組件自己處理
+      
+      // 提示框顯示函數
+      function showToast(message) {
+        const toastEl = document.getElementById('actionToast');
+        const toastBody = toastEl.querySelector('.toast-body');
+        toastBody.textContent = message;
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
+      }
     });
   </script>
   
