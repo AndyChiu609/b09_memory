@@ -362,6 +362,38 @@
           setTimeout(() => {
             detail.style.opacity = "1";
             detail.style.transform = "scale(1) translate(-50%, -50%)";
+
+            // 初始化該詳情視窗內的 Fancybox
+            if (typeof $.fancybox !== "undefined") {
+              $(`[data-fancybox="staff-photo-${index}"]`).fancybox({
+                buttons: ["zoom", "fullScreen", "close"],
+                animationEffect: "zoom",
+                transitionEffect: "fade",
+                infobar: true,
+                touch: {
+                  vertical: true,
+                  momentum: true,
+                },
+                wheel: true,
+                toolbar: true,
+                arrows: false,
+                clickContent: false,
+                dblclickContent: function (current, event) {
+                  return current.type === "image" ? "zoom" : false;
+                },
+                clickSlide: "close",
+                mobile: {
+                  preventCaptionOverlap: false,
+                  idleTime: false,
+                  clickContent: function (current, event) {
+                    return current.type === "image" ? "toggleControls" : false;
+                  },
+                  dblclickContent: function (current, event) {
+                    return current.type === "image" ? "zoom" : false;
+                  },
+                },
+              });
+            }
           }, 10);
         });
 
@@ -395,6 +427,11 @@
 
   // 關閉詳情視窗的函數
   function closeDetail(detail) {
+    // 先關閉可能打開的 Fancybox
+    if (typeof $.fancybox !== "undefined" && $.fancybox.getInstance()) {
+      $.fancybox.close();
+    }
+
     detail.style.opacity = "0";
     detail.style.transform = "scale(0.8) translate(-50%, -50%)";
 
@@ -408,6 +445,11 @@
 
   // 關閉所有詳情視窗的函數
   function closeAllDetails() {
+    // 先關閉可能打開的 Fancybox
+    if (typeof $.fancybox !== "undefined" && $.fancybox.getInstance()) {
+      $.fancybox.close();
+    }
+
     allDetails.forEach((detail) => {
       if (detail.style.display !== "none") {
         closeDetail(detail);
@@ -479,7 +521,7 @@
       // 更新按鈕文字
       const btnTextElement = btn.querySelector(".btn-text");
       if (btnTextElement) {
-        btnTextElement.textContent = "隱藏工作人員名單";
+        btnTextElement.textContent = "隱藏credit";
       }
 
       // 改變按鈕顏色為實心
@@ -498,7 +540,7 @@
       // 更新按鈕文字
       const btnTextElement = btn.querySelector(".btn-text");
       if (btnTextElement) {
-        btnTextElement.textContent = "工作人員名單";
+        btnTextElement.textContent = "credit";
       }
 
       // 恢復按鈕顏色為空心
