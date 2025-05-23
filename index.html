@@ -211,18 +211,33 @@
                 <span class="btn-text">照片牆</span>
               </button>
             </li>
+            <!-- 關於我們 -->
+            <li class="nav-item">
+              <button id="toggle-about-btn"
+                      class="btn btn-outline-primary nav-button"
+                      data-bs-toggle="button"
+                      aria-pressed="false"
+                      autocomplete="off">
+                <span class="btn-icon"><i class="bi bi-people"></i></span>
+                <span class="btn-text">關於我們</span>
+              </button>
+            </li>
+            <!-- 工作人員名單 -->
+            <li class="nav-item">
+              <button id="toggle-credits-btn"
+                      class="btn btn-outline-primary nav-button"
+                      data-bs-toggle="button"
+                      aria-pressed="false"
+                      autocomplete="off">
+                <span class="btn-icon"><i class="bi bi-award"></i></span>
+                <span class="btn-text">工作人員名單</span>
+              </button>
+            </li>
             <!-- 想說的話 -->
             <li class="nav-item">
               <a href="#message" class="btn btn-outline-primary nav-button">
                 <span class="btn-icon"><i class="bi bi-chat-quote"></i></span>
-                <span class="btn-text">想說的話</span>
-              </a>
-            </li>
-            <!-- 關於我們 -->
-            <li class="nav-item">
-              <a href="#about" class="btn btn-outline-primary nav-button">
-                <span class="btn-icon"><i class="bi bi-people"></i></span>
-                <span class="btn-text">關於我們</span>
+                <span class="btn-text">敬請期待</span>
               </a>
             </li>
             <!-- 我要看背景（已改為主色系 btn-outline-primary） -->
@@ -357,11 +372,13 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const container = document.getElementById('card-container');
-      window.activeComponents = { video: false, gallery: false, pictureWall: false };
+      window.activeComponents = { video: false, gallery: false, pictureWall: false, credits: false, about: false };
       const componentLabels = {
         video: '畢業影片',
         gallery: '活動集錦',
-        pictureWall: '照片牆'
+        pictureWall: '照片牆',
+        credits: '工作人員名單',
+        about: '關於我們'
       };
 
       window.switchComponent = function(componentName, newCardsHtml, action = 'toggle') {
@@ -424,5 +441,7 @@
   <script src="video.js"></script>
   <script src="gallery.js"></script>
   <script src="picture-wall.js"></script>
+  <script src="credits.js"></script>
+  <script src="about.js"></script>
 </body>
 </html>

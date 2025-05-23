@@ -163,54 +163,59 @@
     addVideoStyles();
 
     const videoCardHtml = `
-      <div class="card p-2 p-md-3 border border-secondary border-opacity-50 video-card">
-        <div class="card-header fs-5 fw-bold text-center mb-2 mb-md-3">畢業影片</div>
-        <div class="d-flex justify-content-center p-1 p-md-2">
-          <div id="videoCarousel" class="carousel slide w-100">
-            <div class="carousel-indicators">
-              <button type="button" data-bs-target="#videoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="影片 1"></button>
-              <button type="button" data-bs-target="#videoCarousel" data-bs-slide-to="1" aria-label="影片 2"></button>
+  <div class="card p-2 p-md-3 border border-secondary border-opacity-50 video-card">
+    <div class="card-header fs-5 fw-bold text-center mb-2 mb-md-3">畢業影片</div>
+    <div class="d-flex justify-content-center p-1 p-md-2">
+      <div id="videoCarousel" class="carousel slide w-100" data-bs-ride="carousel">
+        <!-- 指示按鈕 -->
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#videoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="影片 1"></button>
+          <button type="button" data-bs-target="#videoCarousel" data-bs-slide-to="1" aria-label="影片 2"></button>
+        </div>
+        <div class="carousel-inner">
+          <!-- 第一支影片（畢業紀念影片） -->
+          <div class="carousel-item active">
+            <div class="ratio ratio-16x9">
+              <iframe
+                src="https://www.youtube.com/embed/smJNlNfr3NE?si=sA4ZqMr7djIEuHs4"
+                title="B10畢業紀念影片"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
             </div>
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <div class="ratio ratio-16x9">
-                  <iframe
-                    src="https://www.youtube.com/embed/ZHgyQGoeaB0?si=gYvO5IEYjY_H3dSg"
-                    title="畢業影片 1"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen; web-share"
-                    allowfullscreen>
-                  </iframe>
-                </div>
-                <div class="carousel-caption d-none d-md-block">
-                  <h5>畢業影片 #1</h5>
-                  <p class="d-none d-lg-block">台大地理系的美麗記憶</p>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <div class="ratio ratio-16x9">
-                  <iframe
-                    src="https://www.youtube.com/embed/vKB2Lg-IM3I?si=AFuaFfrQo8ugx4jd"
-                    title="畢業影片 2"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen; web-share"
-                    allowfullscreen>
-                  </iframe>
-                </div>
-                <div class="carousel-caption d-none d-md-block">
-                  <h5>畢業影片 #2</h5>
-                  <p class="d-none d-lg-block">我們的大學時光</p>
-                </div>
-              </div>
+            <div class="carousel-caption d-none d-md-block">
+              <h5>B10畢業紀念影片</h5>
+              <p class="d-none d-lg-block">珍貴回憶</p>
             </div>
-            <!-- 移除左右箭頭控制，避免擋住YouTube播放器上的按鈕 -->
+          </div>
+          <!-- 第二支影片（回顧影片）：已更新成新連結 -->
+          <div class="carousel-item">
+            <div class="ratio ratio-16x9">
+              <iframe
+                src="https://www.youtube.com/embed/ic0wCaO--Wc?si=NCN46nrOUUeXu8QH"   <!-- ← 這裡改成你新的影片 ID 和參數 -->
+                title="B10 GEOG地取材 回顧影片"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
+            </div>
+            <div class="carousel-caption d-none d-md-block">
+              <h5>B10 GEOG地取材 回顧影片</h5>
+              <p class="d-none d-lg-block">精彩重播!</p>
+            </div>
           </div>
         </div>
-        <div class="card-footer text-muted text-center py-2 d-none d-sm-block">
-          <small>使用下方指示點切換影片</small>
-        </div>
+        <!-- 可加上 data-bs-interval 來控制自動輪播間隔 -->
       </div>
-    `;
+    </div>
+    <div class="card-footer text-muted text-center py-2 d-none d-sm-block">
+      <small>使用下方橫線切換影片</small>
+    </div>
+  </div>
+`;
 
     // 註冊初始化監聽器 - 當卡片完成進場動畫後執行初始化
     setTimeout(() => {
